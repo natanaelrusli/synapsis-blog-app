@@ -18,11 +18,9 @@ export function WelcomeDialog({ isOpen, onComplete }: WelcomeDialogProps) {
   const handleSubmit = async (values: { name: string; token: string }) => {
     setLoading(true);
     try {
-      // Test the token by making a request to the users endpoint
       setApiToken(values.token);
       await api.get('/users');
 
-      // If the request is successful, save the data
       setUserData(values.name, values.token);
       message.success('Welcome to the Blog App!');
       onComplete();

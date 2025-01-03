@@ -8,6 +8,7 @@ export default function Document() {
         <meta name="description" content="A blog that will enchance your knowledge about synapsis." />
         <meta name="keywords" content="Synapsis Blog" />
         <meta name="author" content="Nata Nael" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </Head>
       <body>
         <Main />

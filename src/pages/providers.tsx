@@ -1,7 +1,7 @@
 'use client';
 
+import AntdConfigProvider from '@/context/AntdConfigProviders';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ConfigProvider } from 'antd';
 import { PropsWithChildren } from 'react';
 
 const queryClient = new QueryClient();
@@ -9,7 +9,7 @@ const queryClient = new QueryClient();
 export function Providers({ children }: PropsWithChildren) {
   return (
     <QueryClientProvider client={queryClient}>
-      <ConfigProvider>{children}</ConfigProvider>
+      <AntdConfigProvider>{children}</AntdConfigProvider>
     </QueryClientProvider>
   );
 }
