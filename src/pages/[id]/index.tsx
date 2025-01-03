@@ -2,7 +2,7 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { Button, Card, Divider, Result, Typography } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, UserOutlined } from '@ant-design/icons';
 import RootLayout from '@/components/layout/RootLayout';
 import { Post, PostComment } from '@/types/post';
 import { fetchPostComments, fetchPostDetail } from '@/lib/api';
@@ -28,8 +28,14 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, postComments }) => {
   );
 
   return (
-    <RootLayout>
+    <RootLayout metadata={{
+      pageTitle: `${post.title} - Synapsis Blog`
+    }}>
       <Card>
+        <Link href={'/'}>
+          <Button style={{padding:0}} icon={<ArrowLeftOutlined />} type='link'>Back</Button>
+        </Link>
+
         <div className="mb-4">
           <h1 className="text-2xl font-semibold">{post.title}</h1>
         </div>
@@ -37,17 +43,15 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, postComments }) => {
           <UserOutlined />
           <Text type='secondary'>{post.user_id}</Text>
         </div>
-      
-        <Text>{post.body}</Text>
+
+        <div className='mb-4'>
+          <Text>{post.body}</Text>
+        </div>
       </Card>
 
-      <Divider orientation="left">Comments</Divider>
-
-      {
-        !postComments?.length && (
-          <Typography>No Comments</Typography>
-        )
-      }
+      <Divider orientation="left">
+        { postComments?.length ? 'Comments' : 'No Comments' }
+      </Divider>
 
       {
         postComments?.map((comment) => (

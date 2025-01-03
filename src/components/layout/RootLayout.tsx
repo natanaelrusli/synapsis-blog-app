@@ -7,14 +7,20 @@ const { Content, Footer } = Layout;
 
 type RootLayoutProps = {
   children: React.ReactNode;
+  metadata?: {
+    pageTitle: string;
+  };
 };
 
-const RootLayout: React.FC<RootLayoutProps> = ({ children }) => {
+const RootLayout: React.FC<RootLayoutProps> = ({ children, metadata }) => {
   return (
     <Layout className="min-h-screen mx-auto bg-transparent max-w-7xl px-4 pt-12 pb-4 sm:px-6 lg:px-8">
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="description" content="An example Next.js app with a root layout." />
+        {
+          metadata?.pageTitle && <title>{ metadata.pageTitle }</title>
+        }
       </Head>
       
       <div className='mb-4'>

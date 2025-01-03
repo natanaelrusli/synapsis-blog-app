@@ -10,7 +10,7 @@ const { Text, Title } = Typography;
 
 const CommentCard = ({ comment }: CommentCardProps) => {
   return (
-    <Card key={comment.id}>
+    <Card key={comment.id} className='my-2'>
       <div className='flex flex-col'>
         <Title style={{ marginBottom: 5 }} level={5}>{ comment.name }</Title>
 
