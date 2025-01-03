@@ -66,8 +66,8 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const { id } = params as { id: string };
 
   try {
-    const post: Post = await fetchPostDetail(id);
-    const postComments: PostComment[] = await fetchPostComments(id);
+    const post = await fetchPostDetail(id);
+    const postComments = await fetchPostComments(id);
 
     if (!post) {
       return { notFound: true };
@@ -75,18 +75,20 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
 
     return {
       props: {
-        post,
-        postComments
+        post: post.data,
+        postComments: postComments.data
       }
     };
   } catch (error) {
-    console.error('Error fetching post:', error);
+    console.error('Error fetching post or comments:', error);
     return {
       props: {
         post: null,
+        postComments: null
       },
     };
   }
 };
+
 
 export default PostDetail;

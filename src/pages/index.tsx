@@ -5,7 +5,6 @@ import { WelcomeDialog } from '@/components/WelcomeDialog';
 import { getUserData } from '@/lib/storage';
 import { setApiToken } from '@/lib/api';
 import PostsGrid from '@/components/PostsGrid';
-import Header from '@/components/Header';
 import RootLayout from '@/components/layout/RootLayout';
 
 export default function Home() {
@@ -24,9 +23,9 @@ export default function Home() {
   return (
     <RootLayout>
       {showWelcome ? (
-          <WelcomeDialog isOpen={showWelcome} onComplete={() => setShowWelcome(false)} />
+        <WelcomeDialog isOpen={showWelcome} onComplete={() => setShowWelcome(false)} />
       ): (
-          <PostsGrid />
+        <PostsGrid />
       )}
     </RootLayout>
   )
