@@ -2,27 +2,37 @@ import React from 'react';
 import { Card, Typography, Button } from 'antd';
 import { Post } from '@/types/post';
 import { ArrowRightOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 
 const { Title, Paragraph } = Typography;
 
 type PostCardProps = {
   data: Post;
-  onReadMore: () => void;
 };
 
-const PostCard: React.FC<PostCardProps> = ({ data, onReadMore }) => {
+const PostCard: React.FC<PostCardProps> = ({ data }) => {
   return (
     <Card
       hoverable
-      className='w-full h-[250px] overflow-y-hidden rounded-lg'
-      style={{ width: '100%', height: 250, overflowY: 'hidden', borderRadius: 8 }}
+      className='w-full h-full overflow-y-hidden rounded-lg'
+      styles={{
+        body: {
+          height: "100%"
+        }
+      }}
     >
-      <Title level={4} style={{ marginTop: 16 }}>
-        {data.title}
-      </Title>
-      <Paragraph ellipsis={{ rows: 3 }}>{data.body}</Paragraph>
+      <div className='flex flex-col justify-between h-full'>
+        <Title ellipsis={{ rows: 2 }} level={4} style={{ marginTop: 16 }}>
+          {data.title}
+        </Title>
 
-      <Button onClick={onReadMore} iconPosition='end' icon={<ArrowRightOutlined />}>More Details</Button>
+        <div className='w-full flex flex-col'>
+          <Paragraph ellipsis={{ rows: 3 }}>{data.body}</Paragraph>
+          <Link href={`/${data.id}`}>
+            <Button iconPosition='end' icon={<ArrowRightOutlined />}>More Details</Button>
+          </Link>
+        </div>
+      </div>
     </Card>
   );
 };
