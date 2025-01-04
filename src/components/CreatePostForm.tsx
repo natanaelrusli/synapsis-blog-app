@@ -2,23 +2,36 @@
 
 import React from 'react';
 import { Form, Input, Button, Card, message } from 'antd';
-import { createPost, setApiToken } from '@/lib/api';
-
-// TODO: update to use react query
+import { createPost, } from '@/lib/api';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/router';
 
 const CreatePostForm: React.FC = () => {
   const [form] = Form.useForm();
+  const router = useRouter();
+
+  const createPostMutation = useMutation({
+    mutationFn: ({ title, body }: { title: string; body: string }) => createPost({
+      title: title,
+      user_id: parseInt(localStorage.getItem('user_id') || ''),
+      body: body,
+      user: localStorage.getItem('user_name') || ''
+    }, localStorage.getItem('api_token') || ''),
+    onSuccess: () => {
+      message.success('Post created');
+      router.push('/');
+    },
+    onError: () => {
+      message.error('Failed creating post');
+    }
+  })
 
   const onFinish = async (values: { title: string; body: string; }) => {
     try {
-      setApiToken(localStorage.getItem('api_token') || '');
-      await createPost({
+      createPostMutation.mutate({
         title: values.title,
-        user_id: parseInt(localStorage.getItem('user_id') || '0'),
-        body: values.body,
-        user: localStorage.getItem('user_name') || ''
+        body: values.body
       })
-      message.success('Post created successfully!');
       form.resetFields();
     } catch (error) {
       message.error('Failed to create post. Please try again.');
@@ -42,7 +55,7 @@ const CreatePostForm: React.FC = () => {
               { max: 100, message: 'Title cannot exceed 100 characters!' },
             ]}
           >
-            <Input placeholder="Enter the post title" />
+            <Input disabled={createPostMutation.isPending} placeholder="Enter the post title" />
           </Form.Item>
 
           <Form.Item
@@ -50,11 +63,11 @@ const CreatePostForm: React.FC = () => {
             name="body"
             rules={[{ required: true, message: 'Please enter the post content!' }]}
           >
-            <Input.TextArea placeholder="Enter the post content" rows={4} />
+            <Input.TextArea disabled={createPostMutation.isPending} placeholder="Enter the post content" rows={4} />
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button type="primary" htmlType="submit" loading={createPostMutation.isPending}>
               Submit
             </Button>
           </Form.Item>

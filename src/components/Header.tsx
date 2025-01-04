@@ -1,11 +1,12 @@
 'use client';
 
+import React, { useContext } from 'react'
 import { LOCAL_STORAGE_KEY } from '@/providers/AntdConfigProviders'
 import { ThemeMode, ThemeModeContext } from '@/context/ThemeModeContext'
 import { MoonFilled, SunFilled } from '@ant-design/icons'
 import { Button, Switch } from 'antd'
 import Link from 'next/link';
-import React, { useContext } from 'react'
+import { useRouter } from 'next/router';
 
 type NavItem = {
   href: string;
@@ -13,9 +14,19 @@ type NavItem = {
 }
 
 const NavigationButton = ({ href, text }: NavItem) => {
+  const router = useRouter();
+  const isActive = router.pathname === href;
+
   return (
     <Link href={href}>
-      <Button type='text' size='large'>
+      <Button
+        type='text'
+        size='large'
+        style={{
+          color: isActive ? '#1890ff' : 'inherit',
+          fontWeight: isActive ? 'bold' : 'normal'
+        }}
+      >
         { text }
       </Button>
     </Link>

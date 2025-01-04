@@ -6,9 +6,11 @@ import { getUserData } from '@/lib/storage';
 import { setApiToken } from '@/lib/api';
 import PostsGrid from '@/components/PostsGrid';
 import RootLayout from '@/components/layout/RootLayout';
+import { Typography } from 'antd';
 
 export default function Home() {
-  const [showWelcome, setShowWelcome] = useState(false);
+  const [showWelcome, setShowWelcome] = useState<boolean>(false);
+  const [userName, setUserName] = useState<string>('');
 
   useEffect(() => {
     const userData = getUserData();
@@ -17,11 +19,13 @@ export default function Home() {
       setShowWelcome(true);
     } else {
       setApiToken(userData.token);
+      setUserName(userData.name);
     }
   }, []);
 
   return (
     <RootLayout>
+      <Typography.Title level={2}>Hello, { userName }</Typography.Title>
       {showWelcome ? (
         <WelcomeDialog isOpen={showWelcome} onComplete={() => setShowWelcome(false)} />
       ): (

@@ -24,7 +24,7 @@ const ProfilePostsList = ({ posts: initialPosts }: ProfilePostsListProps) => {
           height: 300
         }}
         status="404"
-        title="Sorry, no posts yet.."
+        title="No posts yet.."
         subTitle="Click the button below to start creating one!"
         extra={
           <Link href={'/create'}>

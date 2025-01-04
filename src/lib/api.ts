@@ -57,7 +57,11 @@ export const fetchUsers = async (): Promise<ApiResponse<User[]>> => {
   return response.data;
 }
 
-export const createPost = async (postData: PostData): Promise<ApiResponse<Post>> => {
+export const createPost = async (postData: PostData, token?: string): Promise<ApiResponse<Post>> => {
+  if (token) {
+    setApiToken(token);
+  }
+
   const response = await api.post('/posts', postData);
   return response.data;
 };
