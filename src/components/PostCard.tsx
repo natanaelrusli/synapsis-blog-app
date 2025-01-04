@@ -17,17 +17,19 @@ const PostCard: React.FC<PostCardProps> = ({ data }) => {
       className='w-full h-full overflow-y-hidden rounded-lg'
       styles={{
         body: {
-          height: "100%"
+          height: "250px"
         }
       }}
     >
       <div className='flex flex-col justify-between h-full'>
-        <Title ellipsis={{ rows: 2 }} level={4} style={{ marginTop: 16 }}>
-          {data.title}
-        </Title>
+        <div>
+          <Title ellipsis={{ rows: 2 }} level={4} style={{ marginTop: 16 }}>
+            {data.title}
+          </Title>
+          <Paragraph ellipsis={{ rows: 3 }}>{data.body}</Paragraph>
+        </div>
 
         <div className='w-full flex flex-col'>
-          <Paragraph ellipsis={{ rows: 3 }}>{data.body}</Paragraph>
           <Link href={`/${data.id}`}>
             <Button iconPosition='end' icon={<ArrowRightOutlined />}>More Details</Button>
           </Link>

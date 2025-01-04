@@ -2,7 +2,7 @@
 
 import { ConfigProvider, theme, ThemeConfig } from 'antd';
 import { useEffect, useState } from 'react';
-import { ThemeMode, ThemeModeContext } from './ThemeModeContext';
+import { ThemeMode, ThemeModeContext } from '../context/ThemeModeContext';
 
 export const LOCAL_STORAGE_KEY = 'themeMode';
 

@@ -2,17 +2,25 @@
 
 import React from 'react';
 import { Form, Input, Button, Card, message } from 'antd';
+import { createPost, setApiToken } from '@/lib/api';
+
+// TODO: update to use react query
 
 const CreatePostForm: React.FC = () => {
   const [form] = Form.useForm();
 
-  const onFinish = async (values: { title: string; body: string; userId: number }) => {
+  const onFinish = async (values: { title: string; body: string; }) => {
     try {
-      console.log('Form Values:', values);
+      setApiToken(localStorage.getItem('api_token') || '');
+      await createPost({
+        title: values.title,
+        user_id: parseInt(localStorage.getItem('user_id') || '0'),
+        body: values.body,
+        user: localStorage.getItem('user_name') || ''
+      })
       message.success('Post created successfully!');
       form.resetFields();
     } catch (error) {
-      console.error('Failed to create post:', error);
       message.error('Failed to create post. Please try again.');
     }
   };

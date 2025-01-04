@@ -20,3 +20,11 @@ export type PostComment = {
   email: string;
   body: string;
 }
+
+export type PostData = {
+  id?: string;
+  user?: string;
+  user_id: number;
+  title: string;
+  body: string;
+}

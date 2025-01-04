@@ -1,6 +1,6 @@
 'use client';
 
-import { LOCAL_STORAGE_KEY } from '@/context/AntdConfigProviders'
+import { LOCAL_STORAGE_KEY } from '@/providers/AntdConfigProviders'
 import { ThemeMode, ThemeModeContext } from '@/context/ThemeModeContext'
 import { MoonFilled, SunFilled } from '@ant-design/icons'
 import { Button, Switch } from 'antd'
@@ -25,7 +25,7 @@ const NavigationButton = ({ href, text }: NavItem) => {
 const navItems: NavItem[] = [
   {
     href: '/me',
-    text: 'Prfile'
+    text: 'Profile'
   },
   {
     href: '/create',
@@ -52,7 +52,7 @@ const Header = () => {
         <div className='flex gap-1'>
           {
             navItems.map((item) => (
-              <NavigationButton href={item.href} text={item.text} />
+              <NavigationButton key={item.text} href={item.href} text={item.text} />
             ))
           }
         </div>

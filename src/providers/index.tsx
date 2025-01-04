@@ -1,6 +1,6 @@
 'use client';
 
-import AntdConfigProvider from '@/context/AntdConfigProviders';
+import AntdConfigProvider from '@/providers/AntdConfigProviders';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { PropsWithChildren } from 'react';
 

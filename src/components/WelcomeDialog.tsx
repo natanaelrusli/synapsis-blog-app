@@ -5,7 +5,6 @@ import { Modal, Form, Input, message, Button, Select } from 'antd';
 import { LoginOutlined } from '@ant-design/icons';
 import { api, fetchUsers, setApiToken } from '@/lib/api';
 import { setUserData } from '@/lib/storage';
-import { User } from '@/types/post';
 import { transformUserToSelectValues } from '@/lib/utils';
 
 interface WelcomeDialogProps {

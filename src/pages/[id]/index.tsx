@@ -62,11 +62,20 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, postComments }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
+export const getServerSideProps: GetServerSideProps = async ({ params, req }) => {
   const { id } = params as { id: string };
+  const token = req.cookies['api_token'];
+
+  if (!token) {
+    return {
+      props: {
+        error: 'token not found in cookies.',
+      },
+    };
+  }
 
   try {
-    const post = await fetchPostDetail(id);
+    const post = await fetchPostDetail(id, token);
     const postComments = await fetchPostComments(id);
 
     if (!post) {
