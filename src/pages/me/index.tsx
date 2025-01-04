@@ -4,9 +4,9 @@ import { withAuth } from '@/hoc/withAuth';
 import { ApiResponse } from '@/types/api';
 import { fetchUserDetail, fetchUsersPosts } from '@/lib/api';
 import { Post, User } from '@/types/post';
-import { Card, Typography } from 'antd';
-import EditablePostCard from '@/components/EditablePostCard';
+import { Avatar, Card, Typography } from 'antd';
 import ProfilePostsList from '@/components/ProfilePostsList';
+import { getRandomAvatar } from '@/constants/urls';
 
 interface ProfilePageProps {
   user: User | null;
@@ -35,10 +35,18 @@ function ProfilePage({ user, posts, error }: ProfilePageProps) {
     <RootLayout>
       <Typography.Title level={3}>My Profile</Typography.Title>
       <Card>
-        <Typography><strong>Name:</strong> {user.name}</Typography>
-        <Typography><strong>Email:</strong> {user.email}</Typography>
-        <Typography><strong>Gender:</strong> {user.status}</Typography>
-        <Typography><strong>Status:</strong> {user.gender}</Typography>
+        <Avatar src={getRandomAvatar} className='mb-3' size={60} />
+        <Typography.Title style={{ marginBottom: 1 }} level={4}>{user.name}</Typography.Title>
+        <Typography.Link href={`mailto:${user.email}`}>{user.email}</Typography.Link>
+
+        <div className='mt-3'>
+          <Typography style={{
+            color: user.status === 'active' ? 'green' : 'red'
+          }}>
+            <strong>Status:</strong> {user.status}
+          </Typography>
+          <Typography><strong>Gender:</strong> {user.gender}</Typography>
+        </div>
       </Card>
 
       <div className='my-6'>
