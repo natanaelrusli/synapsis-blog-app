@@ -7,6 +7,7 @@ import { Post, User } from '@/types/post';
 import { Avatar, Card, Typography } from 'antd';
 import ProfilePostsList from '@/components/ProfilePostsList';
 import { getRandomAvatar } from '@/constants/urls';
+import Head from 'next/head';
 
 interface ProfilePageProps {
   user: User | null;
@@ -33,6 +34,11 @@ function ProfilePage({ user, posts, error }: ProfilePageProps) {
 
   return (
     <RootLayout>
+      <Head>
+        <title>{user.name}'s profile - Synapsis Blog</title>
+        <meta name="description" content={`This is the profile of ${user.name}`} />
+      </Head>
+      
       <Typography.Title level={3}>My Profile</Typography.Title>
       <Card>
         <Avatar src={getRandomAvatar} className='mb-3' size={60} />
