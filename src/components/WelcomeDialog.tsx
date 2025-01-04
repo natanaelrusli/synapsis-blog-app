@@ -26,13 +26,13 @@ export function WelcomeDialog({ isOpen, onComplete }: WelcomeDialogProps) {
     fetchUsersList();
   }, []);
 
-  const handleSubmit = async (values: { token: string; user: { value: number; label: string } }) => {
+  const handleSubmit = async (formValues: { token: string; user: { value: number; label: string } }) => {
     setLoading(true);
     try {
-      setApiToken(values.token);
+      setApiToken(formValues.token);
       await api.get('/users');
 
-      setUserData(values.user.label, values.user.value.toString(), values.token);
+      setUserData(formValues.user.label, formValues.user.value.toString(), formValues.token);
       message.success('Welcome to the Blog App!');
       onComplete();
     } catch (error) {

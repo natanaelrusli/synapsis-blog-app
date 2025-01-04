@@ -21,7 +21,7 @@ const ProfilePostsList = ({ posts: initialPosts }: ProfilePostsListProps) => {
     return (
       <Result
         style={{
-          height: 300
+          height: 500
         }}
         status="404"
         title="No posts yet.."

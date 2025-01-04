@@ -5,9 +5,11 @@ import Image from 'next/image';
 import { LOCAL_STORAGE_KEY } from '@/providers/AntdConfigProviders';
 import { ThemeMode, ThemeModeContext } from '@/context/ThemeModeContext';
 import { MoonFilled, SunFilled, MenuOutlined } from '@ant-design/icons';
-import { Button, Switch, Drawer } from 'antd';
+import { Button, Switch, Drawer, Avatar, Tooltip } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { removeUserData } from '@/lib/storage';
+import { getRandomAvatar } from '@/constants/urls';
 
 type NavItem = {
   href: string;
@@ -36,12 +38,12 @@ const NavigationButton = ({ href, text }: NavItem) => {
 
 const navItems: NavItem[] = [
   {
-    href: '/me',
-    text: 'Profile',
-  },
-  {
     href: '/create',
     text: 'Create new post',
+  },
+  {
+    href: '/me',
+    text: 'Profile',
   },
 ];
 
@@ -56,6 +58,11 @@ const Header = () => {
   };
 
   const toggleDrawer = () => setIsDrawerVisible(!isDrawerVisible);
+
+  const handleLogout = () => {
+    removeUserData();
+    window.location.reload();
+  }
 
   const MobileMenu = () => {
     return (
@@ -102,6 +109,14 @@ const Header = () => {
           {navItems.map((item) => (
             <NavigationButton key={item.text} href={item.href} text={item.text} />
           ))}
+          <Tooltip title="Click to logout">
+            <Avatar
+              size="large"
+              onClick={handleLogout}
+              src={getRandomAvatar}
+              className='hover:cursor-pointer hover:scale-110'
+            />
+          </Tooltip>
         </div>
 
         <Switch

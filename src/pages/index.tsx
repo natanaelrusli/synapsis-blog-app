@@ -23,14 +23,18 @@ export default function Home() {
     }
   }, []);
 
+  const handleCompleteWelcome = () => {
+    const userData = getUserData();
+    setUserName(userData?.name || ''  );
+    setShowWelcome(false);
+  }
+
+  if (showWelcome) return <WelcomeDialog isOpen={showWelcome} onComplete={handleCompleteWelcome} />
+
   return (
     <RootLayout>
       <Typography.Title level={2}>Hello, { userName }</Typography.Title>
-      {showWelcome ? (
-        <WelcomeDialog isOpen={showWelcome} onComplete={() => setShowWelcome(false)} />
-      ): (
-        <PostsGrid />
-      )}
+      <PostsGrid />
     </RootLayout>
   )
 }

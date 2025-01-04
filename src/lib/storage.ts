@@ -19,3 +19,14 @@ export const getUserData = () => {
 
   return { name, token };
 };
+
+export const removeUserData = () => {
+  localStorage.removeItem('user_name');
+  localStorage.removeItem('api_token');
+  localStorage.removeItem('user_id');
+
+  document.cookie = 'user_name=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+  document.cookie = 'user_id=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+  document.cookie = 'api_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+};
+
