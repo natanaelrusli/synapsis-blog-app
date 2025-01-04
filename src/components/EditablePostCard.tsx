@@ -1,31 +1,35 @@
 'use client';
 
+import React, { useState } from 'react';
 import { deletePost, updatePostDetail } from '@/lib/api';
 import { getUserData } from '@/lib/storage';
 import { Post } from '@/types/post';
-import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Card, Flex, Input, message, Popconfirm, Typography } from 'antd';
-import React, { useState } from 'react';
+import { Button, Card, Flex, Input, message, Modal, Typography } from 'antd';
 
 type EditablePostCardProps = {
   post: Post;
-  onDelete: () => void
+  onDelete: () => void;
 };
 
 const EditablePostCard = ({ post, onDelete }: EditablePostCardProps) => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [title, setTitle] = useState<string>(post.title);
   const [body, setBody] = useState<string>(post.body);
   const token = getUserData()?.token;
 
   const updatePostMutation = useMutation({
-    mutationFn: () => updatePostDetail({
-      id: post.id.toString(),
-      title: title,
-      body: body,
-      user_id: post.user_id,
-    }, token),
+    mutationFn: () =>
+      updatePostDetail(
+        {
+          id: post.id.toString(),
+          title: title,
+          body: body,
+          user_id: post.user_id,
+        },
+        token
+      ),
     onSuccess: () => {
       message.success('Post updated');
       setIsEditing(false);
@@ -35,7 +39,7 @@ const EditablePostCard = ({ post, onDelete }: EditablePostCardProps) => {
       setTitle(post.title);
       setBody(post.body);
     },
-  })
+  });
 
   const deletePostMutation = useMutation({
     mutationFn: () => deletePost(post.id.toString(), token || ''),
@@ -45,12 +49,12 @@ const EditablePostCard = ({ post, onDelete }: EditablePostCardProps) => {
     },
     onError: () => {
       message.error('Post deletion failed');
-    }
-  })
+    },
+  });
 
   const handleUpdate = () => {
     if (post.title === title && post.body === body) {
-      message.info("No data edited");
+      message.info('No data edited');
       setIsEditing(false);
       return;
     }
@@ -60,7 +64,8 @@ const EditablePostCard = ({ post, onDelete }: EditablePostCardProps) => {
 
   const handleDelete = () => {
     deletePostMutation.mutate();
-  }
+    setIsModalVisible(false);
+  };
 
   return (
     <Card>
@@ -88,28 +93,36 @@ const EditablePostCard = ({ post, onDelete }: EditablePostCardProps) => {
 
       <Flex gap="small">
         <Button
-          loading={updatePostMutation.isPending} 
+          loading={updatePostMutation.isPending}
           onClick={() => (isEditing ? handleUpdate() : setIsEditing(true))}
         >
           {isEditing ? 'Update' : 'Edit'}
         </Button>
-        <Popconfirm
-          title="Delete post"
-          description="Are you sure to delete this task?"
-          onConfirm={handleDelete}
-          icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-          okText="Yes"
-          cancelText="No"
+        <Button
+          danger
+          disabled={isEditing}
+          loading={deletePostMutation.isPending}
+          onClick={() => setIsModalVisible(true)}
         >
-          <Button
-            danger
-            disabled={isEditing}
-            loading={updatePostMutation.isPending || deletePostMutation.isPending} 
-          >
-            Delete
-          </Button>
-        </Popconfirm>
+          Delete
+        </Button>
       </Flex>
+
+      <Modal
+        title="Delete Post"
+        open={isModalVisible}
+        centered
+        onOk={handleDelete}
+        onCancel={() => setIsModalVisible(false)}
+        okText="Yes"
+        cancelText="No"
+        okButtonProps={{
+          loading: deletePostMutation.isPending,
+        }}
+        okType='danger'
+      >
+        <Typography>Are you sure you want to delete this post?</Typography>
+      </Modal>
     </Card>
   );
 };

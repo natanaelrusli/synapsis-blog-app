@@ -4,7 +4,7 @@ import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import PostCard from './PostCard';
 import { fetchPosts } from '@/lib/api';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
-import { Button, Col, Input, Pagination, Row, Skeleton } from 'antd';
+import { Button, Col, Empty, Input, Pagination, Row, Skeleton } from 'antd';
 import { RefreshCcw } from 'lucide-react';
 import { Post } from '@/types/post';
 import { debounce } from '@/lib/utils';
@@ -67,8 +67,8 @@ const PostsGrid: React.FC = () => {
   const renderNoDataText = () => {
     if (!filteredPosts.length) {
       return (
-        <div className="text-center w-full">
-          <p>No Data</p>
+        <div className="w-full h-[400px] flex justify-center items-center">
+          <Empty />
         </div>
       );
     }

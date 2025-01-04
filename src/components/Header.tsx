@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useContext, useState } from 'react';
+import Image from 'next/image';
 import { LOCAL_STORAGE_KEY } from '@/providers/AntdConfigProviders';
 import { ThemeMode, ThemeModeContext } from '@/context/ThemeModeContext';
 import { MoonFilled, SunFilled, MenuOutlined } from '@ant-design/icons';
@@ -91,9 +92,9 @@ const Header = () => {
   }
 
   return (
-    <div className="flex items-center justify-between mb-8">
+    <div className="flex items-center justify-between mb-5">
       <Link href="/">
-        <h1 className="text-4xl font-bold">Synapsis Blog App</h1>
+        <Image width={200} height={80} alt='logo' src={'https://synapsis.id/wp-content/uploads/2022/09/logo.png'} />
       </Link>
 
       <div className="hidden md:flex items-center gap-8">
