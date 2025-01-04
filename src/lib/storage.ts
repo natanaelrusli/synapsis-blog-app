@@ -1,6 +1,7 @@
-export const setUserData = (name: string, token: string) => {
+export const setUserData = (name: string, userId: string, token: string) => {
   localStorage.setItem('user_name', name);
   localStorage.setItem('api_token', token);
+  localStorage.setItem('user_id', userId);
 };
 
 export const getUserData = () => {

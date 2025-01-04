@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
-import { Modal, Form, Input, message, Button } from 'antd';
+import { useEffect, useState } from 'react';
+import { Modal, Form, Input, message, Button, Select } from 'antd';
 import { LoginOutlined } from '@ant-design/icons';
-import { api, setApiToken } from '@/lib/api';
+import { api, fetchUsers, setApiToken } from '@/lib/api';
 import { setUserData } from '@/lib/storage';
+import { User } from '@/types/post';
+import { transformUserToSelectValues } from '@/lib/utils';
 
 interface WelcomeDialogProps {
   isOpen: boolean;
@@ -14,14 +16,24 @@ interface WelcomeDialogProps {
 export function WelcomeDialog({ isOpen, onComplete }: WelcomeDialogProps) {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [usersSelect, setUsersSelect] = useState<{ value: number; label: string; }[]>([]);
+  
+  const fetchUsersList = async () => {
+    const response = await fetchUsers();
+    setUsersSelect(transformUserToSelectValues(response.data));
+  }
 
-  const handleSubmit = async (values: { name: string; token: string }) => {
+  useEffect(() => {
+    fetchUsersList();
+  }, []);
+
+  const handleSubmit = async (values: { token: string; user: { value: number; label: string } }) => {
     setLoading(true);
     try {
       setApiToken(values.token);
       await api.get('/users');
 
-      setUserData(values.name, values.token);
+      setUserData(values.user.label, values.user.value.toString(), values.token);
       message.success('Welcome to the Blog App!');
       onComplete();
     } catch (error) {
@@ -68,11 +80,15 @@ export function WelcomeDialog({ isOpen, onComplete }: WelcomeDialogProps) {
 
         <Form form={form} layout="vertical" onFinish={handleSubmit}>
           <Form.Item
-            name="name"
-            label="Your Name"
-            rules={[{ required: true, message: 'Please enter your name' }]}
+            name="user"
+            label="Select User"
+            rules={[{ required: true, message: 'Please select a user' }]}
           >
-            <Input placeholder="Enter your name" />
+             <Select
+              labelInValue
+              placeholder="Seelct User to Login"
+              options={usersSelect}
+            />
           </Form.Item>
 
           <Form.Item

@@ -33,3 +33,16 @@ export const fetchUserDetail = async (userId: string): Promise<ApiResponse<User>
   const response = await api.get(`/users/${userId}`);
   return response.data;
 }
+
+export const fetchUsers = async (): Promise<ApiResponse<User[]>> => {
+  const response = await api.get(`/users`);
+  return response.data;
+}
+
+export const createPost = async () => {
+
+}
+
+export const createUser = async () => {
+
+}

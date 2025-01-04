@@ -1,3 +1,4 @@
+import { User } from '@/types/post';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -17,4 +18,15 @@ export function debounce<T extends (...args: any[]) => void>(
       func(...args);
     }, wait);
   };
+}
+
+export const transformUserToSelectValues = (users: User[]) => {
+  const result = users.map((user) => {
+    return {
+      value: user.id,
+      label: user.name,
+    }
+  })
+
+  return result;
 }
