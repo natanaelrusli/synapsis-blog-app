@@ -3,8 +3,9 @@
 import { deletePost, updatePostDetail } from '@/lib/api';
 import { getUserData } from '@/lib/storage';
 import { Post } from '@/types/post';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { useMutation } from '@tanstack/react-query';
-import { Button, Card, Flex, Input, message, Typography } from 'antd';
+import { Button, Card, Flex, Input, message, Popconfirm, Typography } from 'antd';
 import React, { useState } from 'react';
 
 type EditablePostCardProps = {
@@ -27,12 +28,13 @@ const EditablePostCard = ({ post, onDelete }: EditablePostCardProps) => {
     }, token),
     onSuccess: () => {
       message.success('Post updated');
+      setIsEditing(false);
     },
     onError: () => {
       message.error('Post update failed');
       setTitle(post.title);
       setBody(post.body);
-    }
+    },
   })
 
   const deletePostMutation = useMutation({
@@ -47,8 +49,13 @@ const EditablePostCard = ({ post, onDelete }: EditablePostCardProps) => {
   })
 
   const handleUpdate = () => {
+    if (post.title === title && post.body === body) {
+      message.info("No data edited");
+      setIsEditing(false);
+      return;
+    }
+
     updatePostMutation.mutate();
-    setIsEditing(false);
   };
 
   const handleDelete = () => {
@@ -81,19 +88,27 @@ const EditablePostCard = ({ post, onDelete }: EditablePostCardProps) => {
 
       <Flex gap="small">
         <Button
-          loading={updatePostMutation.isPending || deletePostMutation.isPending} 
+          loading={updatePostMutation.isPending} 
           onClick={() => (isEditing ? handleUpdate() : setIsEditing(true))}
         >
           {isEditing ? 'Update' : 'Edit'}
         </Button>
-        <Button
-          danger
-          disabled={isEditing}
-          loading={updatePostMutation.isPending || deletePostMutation.isPending} 
-          onClick={handleDelete}
+        <Popconfirm
+          title="Delete post"
+          description="Are you sure to delete this task?"
+          onConfirm={handleDelete}
+          icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+          okText="Yes"
+          cancelText="No"
         >
-          Delete
-        </Button>
+          <Button
+            danger
+            disabled={isEditing}
+            loading={updatePostMutation.isPending || deletePostMutation.isPending} 
+          >
+            Delete
+          </Button>
+        </Popconfirm>
       </Flex>
     </Card>
   );
