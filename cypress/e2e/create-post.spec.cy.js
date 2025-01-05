@@ -1,0 +1,3 @@
+describe('Create post page', () => {
+
+})

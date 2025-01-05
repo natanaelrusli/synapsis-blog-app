@@ -13,6 +13,7 @@ type PostCardProps = {
 const PostCard: React.FC<PostCardProps> = ({ data }) => {
   return (
     <Card
+      id='post-card'
       hoverable
       className='w-full h-full overflow-y-hidden rounded-lg'
       styles={{
