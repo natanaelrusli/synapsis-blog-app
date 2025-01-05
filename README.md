@@ -2,6 +2,9 @@
 
 Synapsis Blog is a modern blogging platform built with [Next.js 13](https://nextjs.org/) using the Pages Router. This application is designed for fast performance, SEO optimization, and a seamless user experience.
 
+#### Live URL:
+https://synapsis-blog-app-gamma.vercel.app/
+
 ---
 
 ## Table of Contents
@@ -22,7 +25,7 @@ Synapsis Blog is a modern blogging platform built with [Next.js 13](https://next
 
 ## Features
 
-- **Dynamic Blogging:** Create, edit, and manage blog posts dynamically.
+- **Dynamic Blogging:** Create, edit, and manage blog posts.
 - **SEO Optimization:** Built-in SEO optimizations with meta tags and Open Graph support.
 - **Responsive Design:** Fully responsive UI for all devices.
 - **Dark Mode:** Toggle between light and dark themes.
@@ -35,6 +38,39 @@ Synapsis Blog is a modern blogging platform built with [Next.js 13](https://next
 ## How To Use
 - The first time you open the app, you will need to choose a user that you want to use from the dropdown.
 - Enter the API key you get from https://gorest.co.in/
+
+### Pages:
+1. Onboarding Page
+
+   ![Onboarding page](/docs/assets/onboarding.png)
+
+   In this page, there's a select component that will list down all users available and below there's an input to put in the API key to access resources in the API.
+
+1. Home Page
+
+   ![Home page](/docs/assets/home.png)
+
+   "Home page" allows user to see 6 posts at a time, there are a pagination and above the grid there's an input that allows user to search for a post in that page based on the post's title.
+
+1. Post detail Page
+
+   ![Post detail page](/docs/assets/post-detail.png)
+
+   "Post detail" page is a server generated page, it will shows post details that consists of post title, the author user ID and the post body. Below there are a list of comments of the post, consiting of the user name and the email of the commenter and the comment content.
+
+1. Create new post Page
+
+   ![Create new post page](/docs/assets/create-post.png)
+
+   The "Create New Post" page provides a simple and intuitive interface for users to compose new blog posts. It includes fields for the title and body of the post, along with a "Submit" button to publish the post. The page is designed with a clean layout and includes a navigation header for accessing other sections, such as the profile page.
+
+
+1. Profile Page
+
+   ![Profile page](/docs/assets/profile.png)
+
+   The "Profile" page showcases the user's profile details, such as their name, email, and gender. Below the profile information, it displays a list of posts created by the user with options to edit or delete each post. The layout emphasizes clarity and ease of use, with a consistent navigation header and responsive design.
+
 
 ---
 
