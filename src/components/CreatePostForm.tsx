@@ -48,6 +48,7 @@ const CreatePostForm: React.FC = () => {
           initialValues={{ userId: 1 }}
         >
           <Form.Item
+            id='title-form-item'
             label="Title"
             name="title"
             rules={[
@@ -59,6 +60,7 @@ const CreatePostForm: React.FC = () => {
           </Form.Item>
 
           <Form.Item
+            id='body-form-item'
             label="Body"
             name="body"
             rules={[{ required: true, message: 'Please enter the post content!' }]}

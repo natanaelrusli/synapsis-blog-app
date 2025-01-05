@@ -85,7 +85,7 @@ const EditablePostCard = ({ post, onDelete }: EditablePostCardProps) => {
           </>
         ) : (
           <>
-            <Typography.Title level={5}>{title}</Typography.Title>
+            <Typography.Title id="title-label-editable-postcard" level={5}>{title}</Typography.Title>
             <Typography>{body}</Typography>
           </>
         )}
