@@ -1,4 +1,4 @@
-import { loginWithValidCredentials } from "./login.spec.cy";
+import { loginWithValidCredentials } from "./login-utils";
 
 describe('Home page', () => {
   beforeEach(() => {

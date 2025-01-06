@@ -94,7 +94,7 @@ Ensure you have the following installed on your machine:
 2. Navigate to the project directory:
 
    ```bash
-   cd synapsis-blog
+   cd synapsis-blog-app
    ```
 
 3. Install dependencies:
@@ -118,6 +118,11 @@ yarn dev
 ```
 
 The app will be available at [http://localhost:3000](http://localhost:3000).
+
+To run tests:
+
+```bash
+```
 
 ---
 

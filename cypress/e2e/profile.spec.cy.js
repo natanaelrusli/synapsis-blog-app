@@ -24,7 +24,7 @@ describe('User profile page', () => {
     cy.get(':nth-child(1) > .ant-card-body > .ant-flex-gap-small > .ant-btn-color-default')
       .click()
 
-    cy.get('input.ant-input.css-1een1y.ant-input-outlined.mb-2')
+    cy.get('input.ant-input.ant-input-outlined.mb-2')
       .should('be.visible')
       .type(`updated post ${Date.now()}`)
 

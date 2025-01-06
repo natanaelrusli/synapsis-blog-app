@@ -35,7 +35,7 @@ function ProfilePage({ user, posts, error }: ProfilePageProps) {
   return (
     <RootLayout>
       <Head>
-        <title>{user.name} profile - Synapsis Blog</title>
+        <title>{`${user.name} profile - Synapsis Blog`}</title>
         <meta name="description" content={`This is the profile of ${user.name}`} />
       </Head>
       
