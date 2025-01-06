@@ -1,9 +1,7 @@
-const API_KEY = '8e34dcf56bd52fadba748c5c422ff9c92833c30b2a2e72a0a22d2ad7fd4c816c';
-
 export const enterApiToken = () => {
   cy.get('input[placeholder="Enter your GoRest API token"]')
       .should('be.visible')
-      .type(API_KEY);
+      .type(Cypress.env('API_KEY'));
 }
 
 export const selectUser = () => {

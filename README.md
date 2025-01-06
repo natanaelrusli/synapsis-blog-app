@@ -118,9 +118,13 @@ yarn dev
 
 The app will be available at [http://localhost:3000](http://localhost:3000).
 
-To run tests:
+E2E testing using cypress:
+
+Before we can start testing with cypress, we have to put in `API_KEY` in `.env` file. The API key can be aquired from https://gorest.co.in/
 
 ```bash
+# before start testing, make sure port 4000 are cleared.
+npm run e2e:headless
 ```
 
 ---
