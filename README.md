@@ -16,10 +16,9 @@ https://synapsis-blog-app-gamma.vercel.app/
   - [Installation](#installation)
 - [Development](#development)
 - [Production Build](#production-build)
+- [CI/CD](#ci-cd)
 - [File Structure](#file-structure)
 - [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
-- [License](#license)
 
 ---
 
@@ -146,6 +145,18 @@ To run tests:
 
 ---
 
+## CI CD
+For CI CD of this project, I used Github workflows, which the configuration can be accessed in `./.github/workflows/ci.yml`
+
+![CI CD workflows](/docs/assets/ci-cd-workflows.png)
+
+The CI CD process consists of:
+1. Run lint using eslint `npm run lint`
+1. Run Cypress e2e tests `npm run e2e:headless`
+
+
+   ###### Please note that this process can take up to 5 minutes.
+
 ## File Structure
 
 ```plaintext
@@ -154,7 +165,6 @@ synapsis-blog/
 ├── .gitignore
 ├── .prettierrc.json
 ├── components.json
-├── middleware.ts
 ├── next-env.d.ts
 ├── next.config.js
 ├── package.json
@@ -166,7 +176,6 @@ synapsis-blog/
 │   ├── constants/
 │   ├── context/
 │   ├── hoc/
-│   ├── hooks/
 │   ├── lib/
 │   ├── pages/
 │   ├── providers/
@@ -176,6 +185,10 @@ synapsis-blog/
 └── tsconfig.json
 ```
 ---
+
+- `context` contains the file for React Context API, store, state and the reducers, note that this directory will not contain any `Provider` for the context.
+- `providers` contains all provider components used in the app.
+- `hoc` contains Higher order component that are used in the app.
 
 ## Technologies Used
 
