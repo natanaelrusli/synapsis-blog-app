@@ -18,13 +18,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          cache: 'yarn'
+          cache: 'npm'
 
       - name: Install dependencies
-        run: yarn install
+        run: npm install
 
       - name: Run linting
-        run: yarn lint
+        run: npm run lint
 
       - name: Run cypress tests
-        run: yarn e2e:headless
+        run: npm run e2e:headless
