@@ -1,11 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
-import { deletePost, updatePostDetail } from '@/lib/api';
+import { updatePostDetail } from '@/lib/api';
 import { getUserData } from '@/lib/storage';
 import { Post } from '@/types/post';
 import { useMutation } from '@tanstack/react-query';
 import { Button, Card, Flex, Input, message, Modal, Typography } from 'antd';
+import { useDeletePost } from '@/hooks/api/posts';
 
 type EditablePostCardProps = {
   post: Post;
@@ -41,16 +42,7 @@ const EditablePostCard = ({ post, onDelete }: EditablePostCardProps) => {
     },
   });
 
-  const deletePostMutation = useMutation({
-    mutationFn: () => deletePost(post.id.toString(), token || ''),
-    onSuccess: () => {
-      message.success('Post deleted');
-      onDelete();
-    },
-    onError: () => {
-      message.error('Post deletion failed');
-    },
-  });
+  const deletePostMutation = useDeletePost(onDelete);
 
   const handleUpdate = () => {
     if (post.title === title && post.body === body) {
@@ -63,7 +55,9 @@ const EditablePostCard = ({ post, onDelete }: EditablePostCardProps) => {
   };
 
   const handleDelete = () => {
-    deletePostMutation.mutate();
+    deletePostMutation.mutate({
+      postId: post.id
+    });
     setIsModalVisible(false);
   };
 

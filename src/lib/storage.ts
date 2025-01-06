@@ -4,7 +4,7 @@ import {
   COOKIE_USER_NAME_KEY,
 } from "@/constants/auth";
 
-const getCookie = (cname: string) => {
+export const getCookie = (cname: string) => {
   let name = cname + "=";
   let decodedCookie = decodeURIComponent(document.cookie);
   let ca = decodedCookie.split(';');

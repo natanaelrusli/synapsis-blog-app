@@ -1,106 +1,55 @@
 import axios from 'axios';
 import { ApiResponse } from '@/types/api';
 import { Post, PostComment, PostData, User } from '@/types/post';
-import { message } from 'antd';
 
 export const api = axios.create({
   baseURL: 'https://gorest.co.in/public/v1',
 });
 
-export const apiv2 = axios.create({
-  baseURL: 'https://gorest.co.in/public/v2',
-});
-
 export const setApiToken = (token: string) => {
   api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+};
 
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }
+const handleApiCall = async <T>(callback: () => Promise<T>, token?: string): Promise<T> => {
+  if (token) setApiToken(token);
+  return callback();
 };
 
 export const fetchPosts = async (page: number, perPage: number, token?: string): Promise<ApiResponse<Post[]>> => {
-  if (token) {
-    setApiToken(token);
-  }
-
-  const response = await api.get(`/posts?page=${page}&per_page=${perPage}`);
-
-  return response.data;
+  return handleApiCall(() => api.get(`/posts?page=${page}&per_page=${perPage}`).then(res => res.data), token);
 };
 
 export const fetchPostDetail = async (postId: string, token?: string): Promise<ApiResponse<Post>> => {
-  if (token) {
-    setApiToken(token);
-  }
-
-  const response = await api.get(`/posts/${postId}`, token ? setApiToken(token || '') : {});
-
-  return response.data;
-}
+  return handleApiCall(() => api.get(`/posts/${postId}`).then(res => res.data), token);
+};
 
 export const fetchPostComments = async (postId: string): Promise<ApiResponse<PostComment[]>> => {
-  const response = await api.get(`/posts/${postId}/comments`);
-  return response.data;
-}
+  return api.get(`/posts/${postId}/comments`).then(res => res.data);
+};
 
 export const fetchUserDetail = async (userId: string, token?: string): Promise<ApiResponse<User>> => {
-  if (token) {
-    setApiToken(token);
-  }
-
-  const response = await api.get(`/users/${userId}`);
-  
-  return response.data;
-}
+  return handleApiCall(() => api.get(`/users/${userId}`).then(res => res.data), token);
+};
 
 export const fetchUsers = async (): Promise<ApiResponse<User[]>> => {
-  const response = await api.get(`/users`);
-  return response.data;
-}
+  return api.get(`/users`).then(res => res.data);
+};
 
 export const createPost = async (postData: PostData, token?: string): Promise<ApiResponse<Post>> => {
-  if (token) {
-    setApiToken(token);
-  }
-
-  const response = await api.post('/posts', postData);
-  return response.data;
+  return handleApiCall(() => api.post('/posts', postData).then(res => res.data), token);
 };
 
 export const updatePostDetail = async (postData: PostData, token?: string) => {
-  if (token) {
-    setApiToken(token);
-  }
-
-  const response = await api.put(`/posts/${postData.id}`, {
-    ...postData
-  });
-  return response.data;
-}
+  return handleApiCall(() => api.put(`/posts/${postData.id}`, { ...postData }).then(res => res.data), token);
+};
 
 export const fetchUsersPosts = async (userId: string, token?: string): Promise<ApiResponse<Post[]>> => {
-  if (token) {
-    setApiToken(token);
-  }
+  return handleApiCall(() => api.get(`/users/${userId}/posts`).then(res => ({
+    status: res.status,
+    ...res.data
+  })), token);
+};
 
-  const response = await api.get(`/users/${userId}/posts`);
-
-  return {
-    status: response.status,
-    ...response.data
-  };
-}
-
-export const deletePost = async (postId: string, token: string): Promise<void> => {
-  if (!token) {
-    message.error('failed to delete post');
-    return;
-  }
-
-  setApiToken(token);
-  const response = await api.delete(`/posts/${postId}`);
-  return response.data;
-}
+export const deletePost = async (postId: number, token: string): Promise<void> => {
+  return handleApiCall(() => api.delete(`/posts/${postId}`).then(res => res.data), token);
+};

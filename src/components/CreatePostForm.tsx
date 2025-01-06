@@ -2,30 +2,11 @@
 
 import React from 'react';
 import { Form, Input, Button, Card, message } from 'antd';
-import { createPost, } from '@/lib/api';
-import { useMutation } from '@tanstack/react-query';
-import { useRouter } from 'next/router';
-import { getUserData } from '@/lib/storage';
+import { useCreatePost } from '@/hooks/api/posts';
 
 const CreatePostForm: React.FC = () => {
   const [form] = Form.useForm();
-  const router = useRouter();
-
-  const createPostMutation = useMutation({
-    mutationFn: ({ title, body }: { title: string; body: string }) => createPost({
-      title: title,
-      user_id: parseInt(getUserData()?.userId || ''),
-      body: body,
-      user: getUserData()?.name || ''
-    }, getUserData()?.token || ''),
-    onSuccess: () => {
-      message.success('Post created');
-      router.push('/');
-    },
-    onError: () => {
-      message.error('Failed creating post');
-    }
-  })
+  const createPostMutation = useCreatePost()
 
   const onFinish = async (values: { title: string; body: string; }) => {
     try {
