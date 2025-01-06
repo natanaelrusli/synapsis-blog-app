@@ -2,13 +2,12 @@
 
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import PostCard from './PostCard';
-import { fetchPosts } from '@/lib/api';
-import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Button, Col, Empty, Input, Pagination, Row, Skeleton } from 'antd';
 import { RefreshCcw } from 'lucide-react';
 import { Post } from '@/types/post';
 import { debounce } from '@/lib/utils';
 import { getUserData } from '@/lib/storage';
+import { usePosts } from '@/hooks/api/posts';
 
 const DATA_PER_PAGE = 6;
 
@@ -34,12 +33,7 @@ const PostsGrid: React.FC = () => {
     setToken(userData?.token || null);
   }, []);
 
-  const { data: posts, isLoading, error, refetch } = useQuery({
-    queryKey: ['posts', currentPage, token],
-    queryFn: () => fetchPosts(currentPage, DATA_PER_PAGE, token || ''),
-    placeholderData: keepPreviousData,
-    enabled: !!token,
-  });
+  const { data: posts, isLoading, error, refetch } = usePosts(currentPage, DATA_PER_PAGE, token || '');
 
   const filterPosts = useCallback(
     (filterText: string) => {

@@ -5,6 +5,7 @@ import { Form, Input, Button, Card, message } from 'antd';
 import { createPost, } from '@/lib/api';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
+import { getUserData } from '@/lib/storage';
 
 const CreatePostForm: React.FC = () => {
   const [form] = Form.useForm();
@@ -13,10 +14,10 @@ const CreatePostForm: React.FC = () => {
   const createPostMutation = useMutation({
     mutationFn: ({ title, body }: { title: string; body: string }) => createPost({
       title: title,
-      user_id: parseInt(localStorage.getItem('user_id') || ''),
+      user_id: parseInt(getUserData()?.userId || ''),
       body: body,
-      user: localStorage.getItem('user_name') || ''
-    }, localStorage.getItem('api_token') || ''),
+      user: getUserData()?.name || ''
+    }, getUserData()?.token || ''),
     onSuccess: () => {
       message.success('Post created');
       router.push('/');

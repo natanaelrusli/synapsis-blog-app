@@ -1,25 +1,38 @@
 import { GetServerSideProps } from 'next';
+import Head from 'next/head';
 import RootLayout from '@/components/layout/RootLayout';
 import { withAuth } from '@/hoc/withAuth';
 import { ApiResponse } from '@/types/api';
 import { fetchUserDetail, fetchUsersPosts } from '@/lib/api';
 import { Post, User } from '@/types/post';
-import { Avatar, Card, Typography } from 'antd';
+import { ErrorResponse } from '@/types/error'
+import { Avatar, Card, Result, Typography } from 'antd';
 import ProfilePostsList from '@/components/ProfilePostsList';
 import { getRandomAvatar } from '@/constants/urls';
-import Head from 'next/head';
 
 interface ProfilePageProps {
   user: User | null;
   posts: ApiResponse<Post[]> | null;
   error: string | null;
+  errorStatus: number | null;
 }
 
-function ProfilePage({ user, posts, error }: ProfilePageProps) {
+function ProfilePage({ user, posts, error, errorStatus }: ProfilePageProps) {
   if (error) {
     return (
       <RootLayout>
-        <div>Error: {error}</div>
+        {
+          errorStatus === 404 ? (
+            <div>
+              <Result
+                title="Sorry, the user data is not longer valid."
+                subTitle="Please try to login again"
+              />
+            </div>
+          ) : (
+            <div>Error: {error}</div>
+          )
+        }
       </RootLayout>
     );
   }
@@ -98,6 +111,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         user: null,
         posts: null,
         error: error instanceof Error ? error.message : 'An unexpected error occurred.',
+        errorStatus: (error as ErrorResponse)?.status ?? 500,
       },
     };
   }

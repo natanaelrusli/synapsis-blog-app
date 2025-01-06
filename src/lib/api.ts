@@ -32,6 +32,10 @@ export const fetchPosts = async (page: number, perPage: number, token?: string):
 };
 
 export const fetchPostDetail = async (postId: string, token?: string): Promise<ApiResponse<Post>> => {
+  if (token) {
+    setApiToken(token);
+  }
+
   const response = await api.get(`/posts/${postId}`, token ? setApiToken(token || '') : {});
 
   return response.data;
@@ -84,7 +88,10 @@ export const fetchUsersPosts = async (userId: string, token?: string): Promise<A
 
   const response = await api.get(`/users/${userId}/posts`);
 
-  return response.data;
+  return {
+    status: response.status,
+    ...response.data
+  };
 }
 
 export const deletePost = async (postId: string, token: string): Promise<void> => {

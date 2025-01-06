@@ -193,8 +193,8 @@ synapsis-blog/
 ## Technologies Used
 
 - **Framework:** Next.js 13 (Pages Router)
-- **Styling:** Tailwind CSS / CSS Modules
-- **State Management:** React Context
+- **Styling:** Tailwind CSS v3
+- **State Management:** React Context, Tanstack Query
 - **UI Library:** Ant Design v5
 
 ---
