@@ -123,7 +123,7 @@ E2E testing using cypress:
 Before we can start testing with cypress, we have to put in `API_KEY` in `.env` file. The API key can be aquired from https://gorest.co.in/
 
 ```bash
-# before start testing, make sure port 4000 are cleared.
+# before start testing, make sure port 3000 are cleared.
 npm run e2e:headless
 ```
 
